@@ -3,32 +3,6 @@
 Tento projekt implementuje základ streamovací pipeline pro předmět Multimediální služby (MDS).  
 Aktuální verze umožňuje přijmout RTMP stream, převést jej do více kvalit pomocí FFmpeg, vytvořit HLS adaptivní stream a přehrát jej pomocí Video.js.
 
----
-
-## Struktura projektu
-
-CV8/
-│
-├── conf/
-│   └── nginx.conf               # konfigurace nginx + RTMP + HLS
-│
-├── hls/                         # generované HLS segmenty + playlisty
-│   ├── 1080p/
-│   ├── 720p/
-│   ├── 480p/
-│   └── master.m3u8
-│
-├── scripts/
-│   ├── compose_hls_multi.bat    # multi-bitrate transcoding (FFmpeg)
-│
-├── site/
-│   ├── index.html               # publisher UI (zatím neřeší WebRTC)
-│   └── viewer/
-│       └── index.html           # Video.js přehrávač + výběr kvality
-│
-├── NGINX.exe                    # Nginx s RTMP modulem
-└── README.md
-
 
 ---
 
