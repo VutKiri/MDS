@@ -1,91 +1,107 @@
-# MDS
-🟦 MDS – Live Streaming Platforma
+# MDS – Multimediální streamovací služba (základní verze)
 
-Základná funkčná verzia projektu pre predmet MDS 2025/26.
-Systém umožňuje prijímať RTMP stream, prevádzať ho do viacerých HLS kvalít a prehrávať ho cez webový prehliadač.
+Tento projekt implementuje základ streamovací pipeline pro předmět Multimediální služby (MDS).  
+Aktuální verze umožňuje přijmout RTMP stream, převést jej do více kvalit pomocí FFmpeg, vytvořit HLS adaptivní stream a přehrát jej pomocí Video.js.
 
-📁 Struktura projektu
-conf/nginx.conf          - konfigurace nginx + RTMP + HLS
-site/viewer/index.html   - HLS přehrávač (Video.js)
-scripts/compose_hls_multi.bat - generování HLS (1080/720/480)
-hls/                     - generované HLS segmenty
-NGINX.exe                - server
+---
 
-✅ Co je aktuálně funkční
+## Struktura projektu
 
-RTMP ingest (příjem streamu např. z OBS)
+CV8/
+├── conf/
+│ └── nginx.conf
+│
+├── hls/
+│ ├── 1080p/
+│ ├── 720p/
+│ ├── 480p/
+│ └── master.m3u8
+│
+├── scripts/
+│ └── compose_hls_multi.bat
+│
+├── site/
+│ ├── index.html
+│ └── viewer/
+│ └── index.html
+│
+├── NGINX.exe
+└── README.md
 
-FFmpeg transkódování do 3 kvalit (1080p / 720p / 480p)
+yaml
+Kopírovať kód
 
-HLS výstup s master.m3u8
+---
 
-Webový přehrávač s Video.js + výběr kvality
+## Co je aktuálně funkční
 
-Plně funkční end-to-end pipeline:
+- RTMP ingest (např. z OBS)
+- FFmpeg transkódování do 1080p / 720p / 480p
+- Generování HLS segmentů a playlistů
+- Vytváření master.m3u8 (ručně)
+- Webový přehrávač pomocí Video.js + výběr kvality
+- Kompletní pipeline:  
+  `OBS → RTMP → FFmpeg → HLS → Viewer`
 
-OBS → RTMP → FFmpeg → HLS → Viewer
+---
 
-🚀 Jak systém spustit
-1️⃣ Spusť Nginx
+## Jak spustit projekt
 
-V hlavním adresáři projektu spusť:
+### 1. Spuštění Nginx
+
+V kořenové složce projektu:
 
 .\NGINX.exe -p . -c .\conf\nginx.conf
+Po spuštění:
 
+RTMP ingest: rtmp://localhost/live
 
-Server běží na:
+Webová stránka: http://localhost/
 
-RTMP: rtmp://localhost/live
-
-Web: http://localhost/
-
-2️⃣ Spusť FFmpeg transkódování
+### 2. Spuštění transkódování (FFmpeg)
+powershell
+Kopírovať kód
 scripts\compose_hls_multi.bat
-
-
-Tento skript:
+Skript:
 
 vytvoří složku hls/
 
-spustí 3 samostatné transkódovací procesy
+spustí 3 samostatné FFmpeg procesy
 
-průběžně generuje .ts segmenty a playlisty
+generuje .ts segmenty a index.m3u8 v 1080p/720p/480p
 
-3️⃣ Pusť stream z OBS
-
-OBS nastavení:
-
+### 3. Nastavení OBS
 Server: rtmp://localhost/live
 
 Stream key: cam1
 
-Po startu OBS se okamžitě začnou generovat HLS soubory v hls/.
+Po spuštění streamu začne Nginx přijímat video a FFmpeg generovat HLS.
 
-4️⃣ Otevři webový přehrávač
+### 4. Spuštění webového přehrávače
+V prohlížeči otevřete:
 
-V prohlížeči otevři:
-
+arduino
+Kopírovať kód
 http://localhost/viewer/
+Funkce přehrávače:
 
+Volba kvality videa
 
-Přehrávač umí:
+Automatický výběr bitrate
 
-automatický výběr kvality
+Video.js UI
 
-manuální přepnutí rozlišení (1080p/720p/480p)
+Co zatím není implementováno (další fáze projektu)
+WebRTC publisher (MediaStream API + WebRTC)
 
-💡 Poznámky
+Signaling server (WebSocket)
 
-HLS segmenty jsou průběžně generované do /hls/
+Dynamická kompozice video mřížky (1–6 vstupů)
 
-master.m3u8 obsahuje seznam všech kvalit
+Mix více audio stop
 
-Pro další vývoj se bude doplňovat WebRTC publisher a dynamická mřížka (zatím není součástí)
+DVR buffer (20 minut zpětného přehrávání)
 
-📌 Stav projektu
-
-Aktuálně hotová pouze streaming / transkódovací / přehrávací část.
-Publisher (WebRTC), kompozice více kamer, seznam přednášejících a UI pro publikující se doplní později.
-
+Seznam připojených přednášejících
 rozloženie práce:
 https://docs.google.com/document/d/16j0YOs1u3B5rR9D-1Yvw4d3RCO9wjd-Fy4a3qEkfdA4/edit?usp=sharing
