@@ -8,28 +8,27 @@ Aktuální verze umožňuje přijmout RTMP stream, převést jej do více kvalit
 ## Struktura projektu
 
 CV8/
-├── conf/
-│ └── nginx.conf
 │
-├── hls/
-│ ├── 1080p/
-│ ├── 720p/
-│ ├── 480p/
-│ └── master.m3u8
+├── conf/
+│   └── nginx.conf               # konfigurace nginx + RTMP + HLS
+│
+├── hls/                         # generované HLS segmenty + playlisty
+│   ├── 1080p/
+│   ├── 720p/
+│   ├── 480p/
+│   └── master.m3u8
 │
 ├── scripts/
-│ └── compose_hls_multi.bat
+│   ├── compose_hls_multi.bat    # multi-bitrate transcoding (FFmpeg)
 │
 ├── site/
-│ ├── index.html
-│ └── viewer/
-│ └── index.html
+│   ├── index.html               # publisher UI (zatím neřeší WebRTC)
+│   └── viewer/
+│       └── index.html           # Video.js přehrávač + výběr kvality
 │
-├── NGINX.exe
+├── NGINX.exe                    # Nginx s RTMP modulem
 └── README.md
 
-yaml
-Kopírovať kód
 
 ---
 
