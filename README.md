@@ -91,7 +91,9 @@ Automatický výběr bitrate
 
 Video.js UI
 
-Co zatím není implementováno (další fáze projektu)
+
+### Co zatím není implementováno (další fáze projektu)
+
 WebRTC publisher (MediaStream API + WebRTC)
 
 Signaling server (WebSocket)
