@@ -24,7 +24,7 @@ Aktuální verze umožňuje přijmout RTMP stream, převést jej do více kvalit
 
 V kořenové složce projektu:
 
-.\NGINX.exe -p . -c .\conf\nginx.conf
+.\NGINX.exe
 Po spuštění:
 
 RTMP ingest: rtmp://localhost/live
