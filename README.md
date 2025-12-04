@@ -1,86 +1,87 @@
-# MDS – Multimediální streamovací služba (základní verze)
+✅ 1) Spusti ingest (príjem WebM od MediaRecorderu)
 
-Tento projekt implementuje základ streamovací pipeline pro předmět Multimediální služby (MDS).  
-Aktuální verze umožňuje přijmout RTMP stream, převést jej do více kvalit pomocí FFmpeg, vytvořit HLS adaptivní stream a přehrát jej pomocí Video.js.
+Toto vždy musí bežať ako prvé.
+
+node media-ingest.js
 
 
----
+Ak je všetko OK, uvidíš:
 
-## Co je aktuálně funkční
+🚀 MEDIA INGEST server starting...
+✔ WS ingest beží na ws://localhost:8090
+👉 Publisher pripojený
+✔ EBML HEADER OK
+🎬 KEYFRAME OK → spúšťam FFmpeg ingest
 
-- RTMP ingest (např. z OBS)
-- FFmpeg transkódování do 1080p / 720p / 480p
-- Generování HLS segmentů a playlistů
-- Vytváření master.m3u8 (ručně)
-- Webový přehrávač pomocí Video.js + výběr kvality
-- Kompletní pipeline:  
-  `OBS → RTMP → FFmpeg → HLS → Viewer`
+✅ 2) Spusti live-server (HLS + viewer web)
 
----
+Toto vytvára HLS a hostuje stránku /viewer.
 
-## Jak spustit projekt
+node live-server.js
 
-### 1. Spuštění Nginx
 
-V kořenové složce projektu:
+Po spustení:
 
-.\NGINX.exe
+🎬 Spúšťam FFmpeg → HLS z udp://127.0.0.1:10000
+🌐 HTTP server (viewer + HLS) beží na http://localhost:8080/viewer
 
-Po spuštění:
+✅ 3) Spusti web aplikáciu Publisher (tvoj front-end, čo odosiela kameru)
 
-RTMP ingest: rtmp://localhost/live
+Stačí otvoriť v prehliadači publisher stránku (tvoj HTML + JS):
 
-Webová stránka: http://localhost/
+publisher/index.html
 
-### 2. Spuštění transkódování (FFmpeg)
-powershell
-Kopírovať kód
-scripts\compose_hls_multi.bat
-Skript:
 
-vytvoří složku hls/
+Zvyčajne otváraš cez Live Server vo VSCode alebo cez file:// cestu.
 
-spustí 3 samostatné FFmpeg procesy
+✅ 4) Publisher – postup:
 
-generuje .ts segmenty a index.m3u8 v 1080p/720p/480p
+Zapneš kameru (getUserMedia sa načíta automaticky).
 
-### 3. Nastavení OBS
-Server: rtmp://localhost/live
+Prihlásiš sa (ak máš login).
 
-Stream key: cam1
+Klikneš Start.
 
-Po spuštění streamu začne Nginx přijímat video a FFmpeg generovat HLS.
+MediaRecorder začne posielať WebM cez WebSocket → ingest → FFmpeg → UDP → HLS.
 
-### 4. Spuštění webového přehrávače
-V prohlížeči otevřete:
+✅ 5) Otvor viewer
 
-arduino
-Kopírovať kód
-http://localhost/viewer/
-Funkce přehrávače:
+V prehliadači:
 
-Volba kvality videa
+👉 http://localhost:8080/viewer
 
-Automatický výběr bitrate
+Po pár sekundách:
 
-Video.js UI
----
+manifest sa načíta
 
-### Co zatím není implementováno (další fáze projektu)
+video sa spustí
 
-WebRTC publisher (MediaStream API + WebRTC)
+status = Vysílání běží
 
-Signaling server (WebSocket)
+🔥 Celá pipeline (pre istotu ešte raz)
+Publisher (MediaRecorder WebM)
+       ↓  WebSocket
+media-ingest.js  →  FFmpeg → UDP 10000
+       ↓
+live-server.js → FFmpeg HLS → /hls/master.m3u8
+       ↓
+Viewer (HLS.js)
 
-Dynamická kompozice video mřížky (1–6 vstupů)
+🧨 Dôležité rady
+Po každej úprave pipeline:
 
-Mix více audio stop
+Zatvoriť terminal s media-ingest.js
 
-DVR buffer (20 minut zpětného přehrávání)
+Zatvoriť terminal s live-server.js
 
-Seznam připojených přednášejících
+Vymazať priečinok /hls
 
----
+Až potom znovu spustiť oba servery
 
-rozloženie práce:
-https://docs.google.com/document/d/16j0YOs1u3B5rR9D-1Yvw4d3RCO9wjd-Fy4a3qEkfdA4/edit?usp=sharing
+Keď nevidíš video:
+
+Skontroluj, či MediaRecorder posiela dáta (má logy)
+
+Skontroluj, či ingest prijíma KEYFRAME
+
+Skontroluj, či HLS generuje segmenty v priečinku /hls
