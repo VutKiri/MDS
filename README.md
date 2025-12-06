@@ -7,7 +7,6 @@ Tento postup popisuje, ako krok za krokom spustiť celý streamingový systém.
 
 ## **Spustenie NGINX**
 
-Spusti NGINX server
 ---
 
 ## **Spustenie Auth servera**
