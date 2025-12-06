@@ -41,8 +41,8 @@ http://localhost/publisher/
 
 * prihlásiť sa (heslo **1**)
 * zadať ľubovoľné používateľské meno
-* vybrať mikrofón / kameru alebo šedo-bielu testovaciu scénu
-* stlačiť **Start Streaming**
+* vybrať mikrofón / šedo-bielu
+*  **Start**
 
 ---
 
