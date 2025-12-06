@@ -7,8 +7,7 @@ Tento postup popisuje, ako krok za krokom spustiť celý streamingový systém.
 
 ## **Spustenie NGINX**
 
-Spusti NGINX server, ktorý slúži ako reverse-proxy pre Publisher a Viewer.
-
+Spusti NGINX server
 ---
 
 ## **Spustenie Auth servera**
