@@ -74,7 +74,7 @@ Každý nový používateľ sa pripája cez:
 http://localhost/publisher/
 ```
 
-– zadá meno a spustí stream
+– zadá meno, heslo a spustí stream
 – automaticky sa objaví v GRID kompozitore
 
 ---
