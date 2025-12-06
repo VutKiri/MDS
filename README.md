@@ -6,7 +6,7 @@ Tento postup popisuje, ako krok za krokom spustiť celý streamingový systém.
 ---
 
 ## **Spustenie NGINX**
-
+-
 C:\1MDS\MDS_PROJECT> .\NGINX.exe
 ---
 
