@@ -1,4 +1,7 @@
 
+https://vutbr-my.sharepoint.com/:p:/g/personal/256756_vutbr_cz/EUfoGW_AuqxMvudQnI0ayMgBBHU0iisFSXhkcGN28cO9UQ?e=IbW6kY
+
+
 # **Rýchly návod na spustenie projektu**
 
 Tento postup popisuje, ako krok za krokom spustiť celý streamingový systém.
